@@ -14,9 +14,12 @@ public class Art implements Serializable {
 	private Long id;
 	private String title;
 	private String author="unknown";
+	private double price;
 	private final Calendar date = Calendar.getInstance();
 	
-	@ManyToOne
+	//@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = Shop.class)
+	@JoinColumn(name = "shop_id")
 	public Shop shop;
 
 	public Long getId() {
@@ -46,12 +49,18 @@ public class Art implements Serializable {
 	public Calendar getDate() {
 		return date;
 	}
-	
-	public Art(Long id, String title, String author, Shop shop) {
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public Art(Long id, String title, String author, double price, Shop shop) {
 		super();
 		this.id = id;
 		this.title = title;
 		setAuthor(author);
+		this.price=price;
 		this.shop = shop;
 	}
 	

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="shops")
 public class Shop implements Serializable {
@@ -15,7 +17,9 @@ public class Shop implements Serializable {
 	private String name;
 	private Integer capacity;
 	
-	@OneToMany(mappedBy="shop")
+	//@OneToMany(mappedBy="shop")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Art.class) // mappedBy = "store"
+	@JoinColumn(name = "id")
 	public List<Art> art;
 	
 	public Long getId() {
@@ -36,6 +40,9 @@ public class Shop implements Serializable {
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
+	
+	@JsonIgnore
+	@JoinColumn(name = "id")
 	public List<Art> getArt() {
 		return art;
 	}
